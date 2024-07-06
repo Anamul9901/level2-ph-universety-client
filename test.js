@@ -67,27 +67,47 @@ const adminPaths2 = [
 //     return acc;
 //   }, []);
 
-const newArray = adminPaths2.reduce((acc, item) => {
-  if (item.path && item.name) {
-    acc.push({
-      key: item.name,
-      label: "NAVLINK " + item.path,
-    });
+// const newArray = adminPaths2.reduce((acc, item) => {
+//   if (item.path && item.name) {
+//     acc.push({
+//       key: item.name,
+//       label: "NAVLINK " + item.path,
+//     });
+//   }
+
+//   if (item.children) {
+//     acc.push({
+//       key: item.name,
+//       label: item.name,
+//       children: item.children.map((child)=> ({
+//         key: child.name,
+//         label: 'NAVELINK ' + child.path
+//       }))
+//     });
+//   }
+
+//   return acc;
+// }, []);
+
+// // console.log(newArray);
+// console.log(JSON.stringify(newArray));
+
+
+//* serealizer object
+const obj = {
+  name: "anamul",
+  role: "Admin",
+  age: 20,
+};
+console.log(JSON.stringify(obj));
+
+//* non-serealizer object (means konu dhoroner data missing hote pare)
+const obj2 =  {
+  name: "anamul",
+  role: "Admin",
+  age: 20,
+  greet: ()=>{
+    return 'Hello world'
   }
-
-  if (item.children) {
-    acc.push({
-      key: item.name,
-      label: item.name,
-      children: item.children.map((child)=> ({
-        key: child.name,
-        label: 'NAVELINK ' + child.path
-      }))
-    });
-  }
-
-  return acc;
-}, []);
-
-// console.log(newArray);
-console.log(JSON.stringify(newArray));
+};
+console.log(JSON.stringify(obj2));
