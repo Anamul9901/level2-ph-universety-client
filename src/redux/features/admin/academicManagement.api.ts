@@ -7,6 +7,15 @@ const academicManagementApi = baseApi.injectEndpoints({
         url: "/academic-semesters",
         method: "GET",
       }),
+      // transformResponse er maddome ecca moto data customiz kore return korte pare. je je data dekhate chai na segulu off kore dete pare
+      transformResponse: (response) => {
+        // console.log("inside redux", response);
+        // return 'jekonu kisu return';
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
     }),
 
     addAcademicSemester: builder.mutation({
