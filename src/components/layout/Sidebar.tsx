@@ -15,10 +15,11 @@ const userRole = {
 };
 
 const Sidebar = () => {
-  const user = useAppSelector(selectCurrentUser)
+  const user = useAppSelector(selectCurrentUser);
+
   let sidebarItems;
 
-  switch (user?.role) {
+  switch (user!.role) {
     case userRole.ADMIN:
       sidebarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
       break;
@@ -32,8 +33,13 @@ const Sidebar = () => {
     default:
       break;
   }
+
   return (
-    <Sider breakpoint="lg" collapsedWidth="0">
+    <Sider
+      breakpoint="lg"
+      collapsedWidth="0"
+      style={{ height: "100vh", position: "sticky", top: "0", left: "0" }}
+    >
       <div
         style={{
           color: "white",
@@ -43,14 +49,12 @@ const Sidebar = () => {
           alignItems: "center",
         }}
       >
-        PH Uni
+        <h1>PH Uni</h1>
       </div>
       <Menu
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["4"]}
-        // items={items}
-        // items={adminSidebarItems}
         items={sidebarItems}
       />
     </Sider>
