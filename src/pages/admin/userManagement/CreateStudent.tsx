@@ -1,7 +1,7 @@
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import PHDatePicker from "../../../components/form/PHDatePicker";
@@ -68,7 +68,7 @@ const studentDefaultValues = {
   bloogGroup: "A+",
 
   // contract info
-  email: "student02@gmail.com",
+  // email: "student02@gmail.com",
   contactNo: "1235678",
   emergencyContactNo: "987-654-3210",
   presentAddress: "123 Main St, Cityville",
@@ -124,15 +124,16 @@ const CreateStudent = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const studentData = {
-      password: 'student123',
-      student: data
-    }
+      password: "student123",
+      student: data,
+    };
     console.log(studentData);
 
     //*backend e form Data hisebe data pathate hobe. neser nyome from Data te convert korte hoy.
     const formData = new FormData();
     // formData.append("something", "Data of something");
     formData.append("data", JSON.stringify(studentData));
+    formData.append("file", data?.image?.name);
 
     //! This is for development. Just for checking
     // console.log(formData.get("something"));
@@ -167,6 +168,21 @@ const CreateStudent = () => {
                 options={bloodGroupOptions}
                 name="bloogGroup"
                 label="Blood group"
+              />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <Controller
+                name="image"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Photo">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
               />
             </Col>
           </Row>
