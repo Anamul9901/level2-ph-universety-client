@@ -1,30 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Dropdown, Table, TableColumnsType, Tag } from "antd";
-import { useGetAllRegisteredSemestersQuery } from "../../../redux/features/admin/courseManagement.api";
+import {
+  useGetAllRegisteredSemestersQuery,
+  useUpdateRegisterSemesterMutation,
+} from "../../../redux/features/admin/courseManagement.api";
 import moment from "moment";
 import { TSemester } from "../../../types";
+import { useState } from "react";
 
 export type TTableData = Pick<TSemester, "startDate" | "endDate" | "status">;
 
 const items = [
   {
     label: "Upcoming",
-    key: "UPCOMING,",
+    key: "UPCOMING",
   },
   {
     label: "Ongoing",
-    key: "ONGOING,",
+    key: "ONGOING",
   },
   {
     label: "Ended",
-    key: "ENDEN,",
+    key: "ENDED",
   },
 ];
 
 const RegisteredSemester = () => {
+  const [semesterId, setSemesterId] = useState();
+  console.log(semesterId);
   // const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
 
   const { data: semesterDate, isFetching } =
     useGetAllRegisteredSemestersQuery(undefined);
+  const [updateSemesterStatus] = useUpdateRegisterSemesterMutation();
 
   const tableData = semesterDate?.data?.map(
     ({ _id, academicSemester, status, startDate, endDate }) => ({
@@ -36,13 +44,23 @@ const RegisteredSemester = () => {
     })
   );
 
-  const handleStatusDropdown = (data: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(data);
+  const handleStatusUpdate = async (data: any) => {
+    console.log("semester", semesterId);
+    console.log("newStatus", data?.key);
+
+    const updateData = {
+      id: semesterId,
+      data: {
+        status: data?.key,
+      },
+    };
+    const res = await updateSemesterStatus(updateData);
+    console.log(res);
   };
 
   const menuProps = {
     items,
-    onClick: handleStatusDropdown,
+    onClick: handleStatusUpdate,
   };
 
   const columns: TableColumnsType<TTableData> = [
@@ -77,12 +95,12 @@ const RegisteredSemester = () => {
     },
     {
       title: "Action",
-      dataIndex: "x",
-      render: () => {
+      dataIndex: "key",
+      render: (id) => {
         return (
           <div>
-            <Dropdown menu={menuProps}>
-              <Button>Update</Button>
+            <Dropdown menu={menuProps} trigger={["click"]}>
+              <Button onClick={() => setSemesterId(id)}>Update</Button>
             </Dropdown>
           </div>
         );

@@ -22,6 +22,7 @@ const courseManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["semester"], // je je tag use korbo ta age e baseApi er tagType e leke dete hobe, nahole error asbe
       // transformResponse er maddome ecca moto data customiz kore return korte pare. je je data dekhate chai na segulu off kore dete pare
       transformResponse: (response: TResponseRedux<TSemester[]>) => {
         // console.log("inside redux", response);
@@ -39,6 +40,16 @@ const courseManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["semester"],
+    }),
+
+    updateRegisterSemester: builder.mutation({
+      query: (args) => ({
+        url: `/semester-registrations/${args.id}`,
+        method: "PATCH",
+        body: args.data,
+      }),
+      invalidatesTags: ["semester"],
     }),
   }),
 });
@@ -46,4 +57,5 @@ const courseManagementApi = baseApi.injectEndpoints({
 export const {
   useGetAllRegisteredSemestersQuery,
   useAddRegisterSemesterMutation,
+  useUpdateRegisterSemesterMutation,
 } = courseManagementApi;
