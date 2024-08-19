@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
@@ -104,7 +106,7 @@ const CreateStudent = () => {
     useGetAllSemestersQuery(undefined);
   // console.log(sData);
 
-  const { data: dData, isLoading: dIsLoading } = useGetAllDepartmentQuery(
+  const { data: dData } = useGetAllDepartmentQuery(
     undefined,
     { skip: sIsLoading } // skip: sIsLoading er mane semesterquery load huar pore department load hobe. jodeo aikhane aitr dorkar ney
   );
@@ -116,10 +118,12 @@ const CreateStudent = () => {
   }));
   // console.log(semesterOptions);
 
-  const departmentOptions = dData?.data?.map((item) => ({
-    value: item._id,
-    label: item.name,
-  }));
+  const departmentOptions = dData?.data?.map(
+    (item: { _id: any; name: any }) => ({
+      value: item._id,
+      label: item.name,
+    })
+  );
   console.log(departmentOptions);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
