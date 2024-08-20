@@ -8,21 +8,7 @@ import { useState } from "react";
 import PHForm from "../../../components/form/PHForm";
 import PHSelect from "../../../components/form/PHSelect";
 import { useGetAllFacultiesQuery } from "../../../redux/features/admin/userManagement.api";
-
-const items = [
-  {
-    label: "Upcoming",
-    key: "UPCOMING",
-  },
-  {
-    label: "Ongoing",
-    key: "ONGOING",
-  },
-  {
-    label: "Ended",
-    key: "ENDED",
-  },
-];
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const Courses = () => {
   const { data: courses, isFetching } = useGetAllCoursesQuery(undefined);
@@ -45,7 +31,7 @@ const Courses = () => {
     },
     {
       title: "Action",
-      render: (item) => {
+      render: (item: any) => {
         return <AddFacultyModal facultyInfo={item} />;
       },
     },
@@ -62,7 +48,7 @@ const Courses = () => {
 };
 
 // modal
-const AddFacultyModal = ({ facultyInfo }) => {
+const AddFacultyModal = ({ facultyInfo }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: facultiesData } = useGetAllFacultiesQuery(undefined);
   const [addFaculties] = useAddFacultiesMutation();
@@ -72,7 +58,7 @@ const AddFacultyModal = ({ facultyInfo }) => {
     label: item.fullName,
   }));
 
-  const handleSubmit = async (data) => {
+  const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
     const facultyData = {
       courseId: facultyInfo.key,
       data,

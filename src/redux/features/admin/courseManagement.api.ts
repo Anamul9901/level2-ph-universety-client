@@ -24,7 +24,7 @@ const courseManagementApi = baseApi.injectEndpoints({
       },
       providesTags: ["semester"], // je je tag use korbo ta age e baseApi er tagType e leke dete hobe, nahole error asbe
       // transformResponse er maddome ecca moto data customiz kore return korte pare. je je data dekhate chai na segulu off kore dete pare
-      transformResponse: (response: TResponseRedux<TSemester[]>) => {
+      transformResponse: (response: TResponseRedux<any>) => {
         // console.log("inside redux", response);
         // return 'jekonu kisu return';
         return {
